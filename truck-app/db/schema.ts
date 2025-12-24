@@ -1,10 +1,11 @@
-import { pgTable, serial, text, timestamp, integer, boolean } from 'drizzle-orm/pg-core';
+import { pgTable, text, timestamp, integer, boolean, serial } from 'drizzle-orm/pg-core';
 
 export const users = pgTable('users', {
   id: serial('id').primaryKey(),
   email: text('email').notNull().unique(),
+  password: text('password'), // hashed password (optional for MVP)
   name: text('name'),
-  role: text('role').notNull().default('user'), // user, admin
+  role: text('role').notNull().default('employee'), // employee, manager, admin
   createdAt: timestamp('created_at').defaultNow().notNull(),
 });
 

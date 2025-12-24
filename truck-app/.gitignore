@@ -36,6 +36,9 @@ yarn-error.log*
 # vercel
 .vercel
 
+# admin dashboard
+admin-dashboard/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

@@ -1,31 +1,69 @@
-import { db } from "@/db";
-import { users } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import NextAuth from 'next-auth';
+import { authConfig } from './auth.config';
+import Credentials from 'next-auth/providers/credentials';
+import { z } from 'zod';
+import { db } from '@/db';
+import { users } from '@/db/schema';
+import { eq } from 'drizzle-orm';
+import bcrypt from 'bcryptjs';
 
-// Mock session for MVP
-export async function auth() {
-  // In a real app, this would verify the session
-  // For MVP, we'll return a mock user or the first user in DB
-  // You can switch roles here for testing
-  
-  // Try to find a user, if not create one
-  /*
-  let user = await db.query.users.findFirst();
-  if (!user) {
-    [user] = await db.insert(users).values({
-      email: "demo@example.com",
-      name: "Demo User",
-      role: "admin",
-    }).returning();
+async function getUser(email: string) {
+  try {
+    const user = await db.query.users.findFirst({
+      where: eq(users.email, email),
+    });
+    return user;
+  } catch (error) {
+    console.error('Failed to fetch user:', error);
+    throw new Error('Failed to fetch user.');
   }
-  */
-  
-  return {
-    user: {
-      id: "1", // Mock ID
-      email: "demo@example.com",
-      name: "Demo User",
-      role: "admin", // or 'user'
-    }
-  };
 }
+
+export const { auth, signIn, signOut, handlers } = NextAuth({
+  ...authConfig,
+  providers: [
+    Credentials({
+      async authorize(credentials) {
+        const parsedCredentials = z
+          .object({ email: z.string().email(), password: z.string().min(6) })
+          .safeParse(credentials);
+
+        if (parsedCredentials.success) {
+          const { email, password } = parsedCredentials.data;
+          const user = await getUser(email);
+          if (!user) return null;
+          
+          if (!user.password) return null;
+
+          const passwordsMatch = await bcrypt.compare(password, user.password);
+          if (passwordsMatch) {
+            return {
+              ...user,
+              id: String(user.id),
+            };
+          }
+        }
+
+        console.log('Invalid credentials');
+        return null;
+      },
+    }),
+  ],
+  callbacks: {
+    async session({ session, token }) {
+        if (token.sub && session.user) {
+            session.user.id = token.sub;
+        }
+        if (token.role && session.user) {
+            session.user.role = token.role as string;
+        }
+        return session;
+    },
+    async jwt({ token, user }) {
+        if (user) {
+            token.role = (user as any).role;
+        }
+        return token;
+    }
+  }
+});
