@@ -1,4 +1,5 @@
 import type { NextAuthConfig } from 'next-auth';
+import { NextResponse } from 'next/server';
 
 export const authConfig = {
   pages: {
@@ -14,7 +15,7 @@ export const authConfig = {
       } else if (isLoggedIn) {
         // Optional: Redirect to dashboard if already logged in and visiting login
         if (nextUrl.pathname === '/login' || nextUrl.pathname === '/signup') {
-             return Response.redirect(new URL('/dashboard', nextUrl));
+             return NextResponse.redirect(new URL('/dashboard', nextUrl));
         }
       }
       return true;
