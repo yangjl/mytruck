@@ -1,6 +1,6 @@
 import { getUsers } from "@/app/actions/admin";
-import { UserForm } from "@/components/admin-dashboard/UserForm";
-import { UserList } from "@/components/admin-dashboard/UserList";
+import { UserForm } from "@/components/admin/UserForm";
+import { UserList } from "@/components/admin/UserList";
 
 export const dynamic = 'force-dynamic';
 
