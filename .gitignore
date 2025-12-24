@@ -37,7 +37,9 @@ yarn-error.log*
 .vercel
 
 # admin dashboard
-admin-dashboard/
+/admin-dashboard/
+_admin-dashboard/
+!components/admin-dashboard/
 
 # typescript
 *.tsbuildinfo
