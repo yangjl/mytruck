@@ -1,15 +1,32 @@
-import NextAuth from 'next-auth';
-import { authConfig } from './lib/auth.config';
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
 
-// Workaround for "ReferenceError: __dirname is not defined" in Edge Runtime
-// This is often caused by a dependency (like bcryptjs) being bundled even if not directly used
-if (typeof __dirname === 'undefined') {
-  (globalThis as any).__dirname = '/';
+export function middleware(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+  
+  // Allow public routes
+  const publicRoutes = ['/', '/login', '/signup', '/about', '/team', '/changelog', '/posts', '/meeting', '/upcoming', '/join'];
+  const isPublicRoute = publicRoutes.some(route => pathname === route || pathname.startsWith('/api/auth'));
+  
+  // Check for auth token (NextAuth session cookie)
+  const sessionToken = request.cookies.get('authjs.session-token') || 
+                        request.cookies.get('__Secure-authjs.session-token');
+  
+  // If accessing dashboard without session, redirect to login
+  if (pathname.startsWith('/dashboard') && !sessionToken) {
+    const loginUrl = new URL('/login', request.url);
+    loginUrl.searchParams.set('callbackUrl', pathname);
+    return NextResponse.redirect(loginUrl);
+  }
+  
+  // If logged in and trying to access login/signup, redirect to dashboard
+  if ((pathname === '/login' || pathname === '/signup') && sessionToken) {
+    return NextResponse.redirect(new URL('/dashboard', request.url));
+  }
+  
+  return NextResponse.next();
 }
 
-export default NextAuth(authConfig).auth;
-
 export const config = {
-  // https://nextjs.org/docs/app/building-your-application/routing/middleware#matcher
   matcher: ['/((?!api|_next/static|_next/image|.*\\.png$).*)'],
 };
