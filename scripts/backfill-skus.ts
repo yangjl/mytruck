@@ -1,4 +1,4 @@
-import { db } from "../db/index.ts";
+import { db } from "../db/index";
 import { inventoryItems } from "../db/schema";
 import { eq } from "drizzle-orm";
 
