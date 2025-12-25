@@ -120,7 +120,7 @@ export default async function DashboardPage() {
             </Card>
           </Link>
 
-          <Link href="/dashboard/time">
+          <Link href={isAdmin ? "/dashboard/admin" : "/dashboard/time"}>
             <Card className="cursor-pointer hover:shadow-md transition-shadow">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium">Team Hours</CardTitle>
