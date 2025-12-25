@@ -41,7 +41,7 @@ export async function getInventoryItems() {
   }
 
   return await db.select().from(inventoryItems).orderBy(
-    sql`CASE WHEN quantity <= min_quantity THEN 0 ELSE 1 END`,
+    asc(sql`(CASE WHEN quantity <= ${inventoryItems.minQuantity} THEN 0 ELSE 1 END)`),
     asc(inventoryItems.name)
   );
 }
