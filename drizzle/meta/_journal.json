@@ -8,6 +8,27 @@
       "when": 1766599514787,
       "tag": "0000_tan_forgotten_one",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1766692090791,
+      "tag": "0001_slippery_harry_osborn",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1766692384120,
+      "tag": "0002_old_dark_phoenix",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1766692648444,
+      "tag": "0003_tiny_gorilla_man",
+      "breakpoints": true
     }
   ]
 }

@@ -1,5 +1,6 @@
 import { getActiveTimeLog, getMyTimeLogs } from "@/app/actions/time-logs";
 import { TimeClock } from "@/components/dashboard/time/TimeClock";
+import { ManualTimeEntry } from "@/components/dashboard/time/ManualTimeEntry";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export const dynamic = 'force-dynamic';
@@ -16,8 +17,9 @@ export default async function TimePage() {
       </div>
 
       <div className="grid gap-8 md:grid-cols-2">
-        <div>
+        <div className="space-y-8">
           <TimeClock activeLog={activeLog} />
+          <ManualTimeEntry />
         </div>
 
         <Card>

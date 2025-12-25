@@ -1,8 +1,9 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { signOut } from "@/lib/auth";
-import { LayoutDashboard, Clock, Wrench, Truck, LogOut, Users } from "lucide-react";
+import { LayoutDashboard, Clock, Wrench, Truck, LogOut, Users, Package, ShoppingCart } from "lucide-react";
 import { auth } from "@/lib/auth";
+import { Notifications } from "@/components/dashboard/Notifications";
 
 export default async function DashboardLayout({
   children,
@@ -11,6 +12,7 @@ export default async function DashboardLayout({
 }) {
   const session = await auth();
   const isAdmin = session?.user?.role === "admin";
+  const isManager = session?.user?.role === "manager" || isAdmin;
 
   return (
     <div className="flex min-h-screen flex-col md:flex-row">
@@ -44,6 +46,22 @@ export default async function DashboardLayout({
               Fleet
             </Button>
           </Link>
+          {isManager && (
+            <>
+              <Link href="/dashboard/inventory">
+                <Button variant="ghost" className="w-full justify-start gap-2">
+                  <Package className="h-4 w-4" />
+                  Inventory
+                </Button>
+              </Link>
+              <Link href="/dashboard/procurement">
+                <Button variant="ghost" className="w-full justify-start gap-2">
+                  <ShoppingCart className="h-4 w-4" />
+                  Procurement
+                </Button>
+              </Link>
+            </>
+          )}
           {isAdmin && (
             <Link href="/dashboard/admin">
               <Button variant="ghost" className="w-full justify-start gap-2">
@@ -67,8 +85,13 @@ export default async function DashboardLayout({
           </div>
         </nav>
       </aside>
-      <main className="flex-1 p-8">
-        {children}
+      <main className="flex-1 flex flex-col">
+        <header className="flex justify-end items-center p-4 border-b">
+          {isManager && <Notifications />}
+        </header>
+        <div className="p-8">
+          {children}
+        </div>
       </main>
     </div>
   );

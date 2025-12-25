@@ -78,3 +78,31 @@ export async function getActiveTimeLog() {
     where: and(eq(timeLogs.userId, userId), isNull(timeLogs.endTime)),
   });
 }
+
+export async function logTimeManually(data: {
+  date: string;
+  startTime: string;
+  endTime: string;
+  notes?: string;
+}) {
+  const userId = await getUserId();
+  if (!userId) throw new Error("Unauthorized");
+
+  const startDateTime = new Date(`${data.date}T${data.startTime}`);
+  let endDateTime = new Date(`${data.date}T${data.endTime}`);
+
+  // Handle overnight shifts
+  if (endDateTime < startDateTime) {
+    endDateTime.setDate(endDateTime.getDate() + 1);
+  }
+
+  await db.insert(timeLogs).values({
+    userId,
+    startTime: startDateTime,
+    endTime: endDateTime,
+    notes: data.notes,
+    status: "completed",
+  });
+
+  revalidatePath("/dashboard/time");
+}
