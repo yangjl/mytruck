@@ -34,7 +34,7 @@ export function AddTruckForm() {
           required
         />
       </div>
-      <Button type="submit" disabled={isPending}>
+      <Button type="submit" disabled={isPending} className="min-h-[44px]">
         {isPending ? "Adding..." : "Add Truck"}
       </Button>
     </form>

@@ -1,9 +1,16 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { signOut } from "@/lib/auth";
-import { LayoutDashboard, Clock, Wrench, Truck, LogOut, Users, Package, ShoppingCart } from "lucide-react";
+import { LayoutDashboard, Clock, Wrench, Truck, LogOut, Users, Package, ShoppingCart, Menu } from "lucide-react";
 import { auth } from "@/lib/auth";
 import { Notifications } from "@/components/dashboard/Notifications";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export default async function DashboardLayout({
   children,
@@ -21,7 +28,9 @@ export default async function DashboardLayout({
           <Truck className="h-6 w-6" />
           Truck App
         </div>
-        <nav className="flex flex-col gap-2">
+
+        {/* Desktop Navigation */}
+        <nav className="hidden md:flex flex-col gap-2">
           <Link href="/dashboard">
             <Button variant="ghost" className="w-full justify-start gap-2">
               <LayoutDashboard className="h-4 w-4" />
@@ -86,7 +95,88 @@ export default async function DashboardLayout({
         </nav>
       </aside>
       <main className="flex-1 flex flex-col">
-        <header className="flex justify-end items-center p-4 border-b">
+        <header className="flex justify-between items-center p-4 border-b">
+          {/* Mobile Menu - Left Aligned */}
+          <div className="md:hidden">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" size="sm" className="justify-start gap-2 min-h-[44px]">
+                  <Menu className="h-4 w-4" />
+                  Menu
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56">
+                <DropdownMenuItem asChild>
+                  <Link href="/dashboard" className="flex items-center gap-2">
+                    <LayoutDashboard className="h-4 w-4" />
+                    Dashboard
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/dashboard/time" className="flex items-center gap-2">
+                    <Clock className="h-4 w-4" />
+                    Time Clock
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/dashboard/maintenance" className="flex items-center gap-2">
+                    <Wrench className="h-4 w-4" />
+                    Maintenance
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/dashboard/trucks" className="flex items-center gap-2">
+                    <Truck className="h-4 w-4" />
+                    Fleet
+                  </Link>
+                </DropdownMenuItem>
+                {isManager && (
+                  <>
+                    <DropdownMenuItem asChild>
+                      <Link href="/dashboard/inventory" className="flex items-center gap-2">
+                        <Package className="h-4 w-4" />
+                        Inventory
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href="/dashboard/procurement" className="flex items-center gap-2">
+                        <ShoppingCart className="h-4 w-4" />
+                        Procurement
+                      </Link>
+                    </DropdownMenuItem>
+                  </>
+                )}
+                {isAdmin && (
+                  <DropdownMenuItem asChild>
+                    <Link href="/dashboard/admin" className="flex items-center gap-2">
+                      <Users className="h-4 w-4" />
+                      Admin
+                    </Link>
+                  </DropdownMenuItem>
+                )}
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <form
+                    action={async () => {
+                      "use server";
+                      await signOut();
+                    }}
+                    className="w-full"
+                  >
+                    <Button variant="ghost" className="w-full justify-start text-red-500 hover:text-red-600 hover:bg-red-50 gap-2 p-0 h-auto min-h-[44px]">
+                      <LogOut className="h-4 w-4" />
+                      Sign Out
+                    </Button>
+                  </form>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+
+          {/* Desktop spacer for left alignment */}
+          <div className="hidden md:block"></div>
+
+          {/* Notifications - Right Aligned */}
           {isManager && <Notifications />}
         </header>
         <div className="p-8">

@@ -62,14 +62,14 @@ export function ProcurementDialog({ item }: { item: any }) {
   return (
     <Dialog open={open} onOpenChange={handleOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" size="sm" className="h-8 gap-1">
+        <Button variant="outline" size="sm" className="h-8 gap-1 min-h-[44px]">
           <ShoppingCart className="h-3.5 w-3.5" />
           <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
             Restock
           </span>
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-y-auto">
         <form onSubmit={handleSubmit}>
           <DialogHeader>
             <DialogTitle>Restock {item.name}</DialogTitle>
@@ -121,8 +121,8 @@ export function ProcurementDialog({ item }: { item: any }) {
               />
             </div>
           </div>
-          <DialogFooter>
-            <Button type="submit" disabled={isPending}>
+          <DialogFooter className="flex flex-col sm:flex-row gap-2">
+            <Button type="submit" disabled={isPending} className="w-full sm:w-auto min-h-[44px]">
               {isPending ? "Creating..." : "Create Order"}
             </Button>
           </DialogFooter>

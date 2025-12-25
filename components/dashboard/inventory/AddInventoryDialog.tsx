@@ -64,12 +64,12 @@ export function AddInventoryDialog() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button>
+        <Button className="min-h-[44px]">
           <Plus className="mr-2 h-4 w-4" />
           Add Item
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-y-auto">
         <form onSubmit={handleSubmit}>
           <DialogHeader>
             <DialogTitle>Add Inventory Item</DialogTitle>
@@ -162,8 +162,8 @@ export function AddInventoryDialog() {
               />
             </div>
           </div>
-          <DialogFooter>
-            <Button type="submit" disabled={isPending}>
+          <DialogFooter className="flex flex-col sm:flex-row gap-2">
+            <Button type="submit" disabled={isPending} className="w-full sm:w-auto min-h-[44px]">
               {isPending ? "Adding..." : "Add Item"}
             </Button>
           </DialogFooter>

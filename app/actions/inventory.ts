@@ -2,7 +2,7 @@
 
 import { db } from "@/db";
 import { inventoryItems } from "@/db/schema";
-import { eq, desc, asc } from "drizzle-orm";
+import { eq, desc, asc, sql } from "drizzle-orm";
 import { auth } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
 
@@ -40,7 +40,10 @@ export async function getInventoryItems() {
     return [];
   }
 
-  return await db.select().from(inventoryItems).orderBy(asc(inventoryItems.name));
+  return await db.select().from(inventoryItems).orderBy(
+    sql`CASE WHEN quantity <= min_quantity THEN 0 ELSE 1 END`,
+    asc(inventoryItems.name)
+  );
 }
 
 export async function addInventoryItem(data: {

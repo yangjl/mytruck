@@ -28,35 +28,37 @@ export function InventoryTable({ items }: { items: any[] }) {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Name</TableHead>
-              <TableHead>Category</TableHead>
-              <TableHead>SKU</TableHead>
-              <TableHead>Location</TableHead>
-              <TableHead>Quantity</TableHead>
-              <TableHead className="hidden md:table-cell">Min Qty</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>
-                <span className="sr-only">Actions</span>
-              </TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {items.length === 0 ? (
+        <div className="overflow-x-auto">
+          <Table>
+            <TableHeader>
               <TableRow>
-                <TableCell colSpan={8} className="text-center text-muted-foreground">
-                  No inventory items found.
-                </TableCell>
+                <TableHead>Name</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead>
+                  <span className="sr-only">Actions</span>
+                </TableHead>
+                <TableHead>Category</TableHead>
+                <TableHead>SKU</TableHead>
+                <TableHead>Location</TableHead>
+                <TableHead>Quantity</TableHead>
+                <TableHead className="hidden md:table-cell">Min Qty</TableHead>
               </TableRow>
-            ) : (
-              items.map((item) => (
-                <InventoryItemRow key={item.id} item={item} />
-              ))
-            )}
-          </TableBody>
-        </Table>
+            </TableHeader>
+            <TableBody>
+              {items.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={8} className="text-center text-muted-foreground">
+                    No inventory items found.
+                  </TableCell>
+                </TableRow>
+              ) : (
+                items.map((item) => (
+                  <InventoryItemRow key={item.id} item={item} />
+                ))
+              )}
+            </TableBody>
+          </Table>
+        </div>
       </CardContent>
       <CardFooter>
         <div className="text-xs text-muted-foreground">

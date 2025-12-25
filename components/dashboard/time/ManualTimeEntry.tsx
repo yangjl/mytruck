@@ -92,7 +92,7 @@ export function ManualTimeEntry() {
               onChange={(e) => setNotes(e.target.value)}
             />
           </div>
-          <Button type="submit" disabled={isPending} className="w-full">
+          <Button type="submit" disabled={isPending} className="w-full min-h-[44px]">
             {isPending ? "Adding..." : "Add Time Log"}
           </Button>
         </form>

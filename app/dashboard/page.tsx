@@ -57,10 +57,10 @@ export default async function DashboardPage() {
           </CardHeader>
           <CardContent className="flex gap-4">
             <Link href="/dashboard/time">
-              <Button>Time Clock</Button>
+              <Button className="min-h-[44px]">Time Clock</Button>
             </Link>
             <Link href="/dashboard/maintenance">
-              <Button variant="outline">Log Maintenance</Button>
+              <Button variant="outline" className="min-h-[44px]">Log Maintenance</Button>
             </Link>
           </CardContent>
         </Card>

@@ -55,12 +55,12 @@ export function EditInventoryDialog({ item }: { item: any }) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="ghost" size="sm" className="h-8">
+        <Button variant="ghost" size="sm" className="h-8 min-h-[44px] min-w-[44px]">
           <Edit className="h-4 w-4" />
           <span className="sr-only sm:not-sr-only">Edit</span>
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-y-auto">
         <form onSubmit={handleSubmit}>
           <DialogHeader>
             <DialogTitle>Edit Inventory Item</DialogTitle>
@@ -96,8 +96,8 @@ export function EditInventoryDialog({ item }: { item: any }) {
               <Input id="location" value={formData.location} onChange={(e) => setFormData({ ...formData, location: e.target.value })} className="col-span-3" />
             </div>
           </div>
-          <DialogFooter>
-            <Button type="submit" disabled={isPending}>{isPending ? "Saving..." : "Save"}</Button>
+          <DialogFooter className="flex flex-col sm:flex-row gap-2">
+            <Button type="submit" disabled={isPending} className="w-full sm:w-auto min-h-[44px]">{isPending ? "Saving..." : "Save"}</Button>
           </DialogFooter>
         </form>
       </DialogContent>

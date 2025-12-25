@@ -53,7 +53,7 @@ export function Notifications() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="icon" className="relative">
+        <Button variant="outline" size="icon" className="relative min-h-[44px] min-w-[44px]">
           <Bell className="h-4 w-4" />
           {unreadCount > 0 && (
             <Badge

@@ -51,7 +51,7 @@ export function TimeClock({ activeLog }: { activeLog: any }) {
             onClick={handleClockOut} 
             disabled={isPending}
             variant="destructive"
-            className="w-full"
+            className="w-full min-h-[44px]"
           >
             {isPending ? "Clocking Out..." : "Clock Out"}
           </Button>
@@ -72,7 +72,7 @@ export function TimeClock({ activeLog }: { activeLog: any }) {
         <Button 
           onClick={handleClockIn} 
           disabled={isPending}
-          className="w-full"
+          className="w-full min-h-[44px]"
         >
           {isPending ? "Clocking In..." : "Clock In"}
         </Button>

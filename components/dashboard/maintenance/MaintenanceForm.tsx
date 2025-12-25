@@ -107,7 +107,7 @@ export function MaintenanceForm({ trucks }: { trucks: any[] }) {
         />
       </div>
 
-      <Button type="submit" disabled={isPending} className="w-full">
+      <Button type="submit" disabled={isPending} className="w-full min-h-[44px]">
         {isPending ? "Logging..." : "Log Entry"}
       </Button>
     </form>

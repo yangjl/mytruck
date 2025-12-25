@@ -31,13 +31,6 @@ export function InventoryItemRow({ item }: { item: any }) {
   return (
     <TableRow>
       <TableCell className="font-medium">{item.name}</TableCell>
-      <TableCell>{item.category || "-"}</TableCell>
-      <TableCell>{item.sku || "-"}</TableCell>
-      <TableCell>{item.location || "-"}</TableCell>
-      <TableCell>
-        {item.quantity} {item.unit}
-      </TableCell>
-      <TableCell className="hidden md:table-cell">{item.minQuantity}</TableCell>
       <TableCell>
         {item.quantity <= item.minQuantity ? (
           <Badge variant="destructive">Low Stock</Badge>
@@ -48,10 +41,17 @@ export function InventoryItemRow({ item }: { item: any }) {
       <TableCell className="flex items-center gap-2">
         <ProcurementDialog item={item} />
         <EditInventoryDialog item={item} />
-        <Button onClick={handleDelete} size="icon" variant="ghost" className="text-red-600" aria-label="Delete item">
+        <Button onClick={handleDelete} size="icon" variant="ghost" className="text-red-600 min-h-[44px] min-w-[44px]" aria-label="Delete item">
           <Trash className="h-4 w-4" />
         </Button>
       </TableCell>
+      <TableCell>{item.category || "-"}</TableCell>
+      <TableCell>{item.sku || "-"}</TableCell>
+      <TableCell>{item.location || "-"}</TableCell>
+      <TableCell>
+        {item.quantity} {item.unit}
+      </TableCell>
+      <TableCell className="hidden md:table-cell">{item.minQuantity}</TableCell>
     </TableRow>
   );
 }

@@ -96,6 +96,7 @@ export function ProcurementTable({ orders }: { orders: any[] }) {
                           variant="outline"
                           onClick={() => handleStatusUpdate(order.id, "Ordered")}
                           disabled={isPending}
+                          className="min-h-[44px]"
                         >
                           Mark Ordered
                         </Button>
@@ -106,6 +107,7 @@ export function ProcurementTable({ orders }: { orders: any[] }) {
                           variant="outline"
                           onClick={() => handleStatusUpdate(order.id, "Restocked")}
                           disabled={isPending}
+                          className="min-h-[44px]"
                         >
                           Mark Restocked
                         </Button>
