@@ -184,9 +184,11 @@ export default async function DashboardPage() {
             <CardTitle>Quick Actions</CardTitle>
           </CardHeader>
           <CardContent className="flex gap-4">
-            <Link href="/dashboard/time">
-              <Button className="min-h-[44px]">Time Clock</Button>
-            </Link>
+            {!isAdmin && (
+              <Link href="/dashboard/time">
+                <Button className="min-h-[44px]">Time Clock</Button>
+              </Link>
+            )}
             <Link href="/dashboard/maintenance">
               <Button variant="outline" className="min-h-[44px]">Log Maintenance</Button>
             </Link>
