@@ -4,6 +4,7 @@ import { signOut } from "@/lib/auth";
 import { LayoutDashboard, Clock, Wrench, Truck, LogOut, Users, Package, ShoppingCart, Menu } from "lucide-react";
 import { auth } from "@/lib/auth";
 import { Notifications } from "@/components/dashboard/Notifications";
+import { MobileLogout } from "@/components/MobileLogout";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -23,7 +24,7 @@ export default async function DashboardLayout({
 
   return (
     <div className="flex min-h-screen flex-col md:flex-row">
-      <aside className="w-full md:w-64 bg-gray-100 dark:bg-gray-900 border-r p-6 flex flex-col gap-4">
+      <aside className="hidden md:block w-64 bg-gray-100 dark:bg-gray-900 border-r p-6 flex flex-col gap-4">
         <div className="font-bold text-xl mb-4 flex items-center gap-2">
           <Truck className="h-6 w-6" />
           Truck App
@@ -155,21 +156,8 @@ export default async function DashboardLayout({
                   </DropdownMenuItem>
                 )}
                 <DropdownMenuSeparator />
-                <DropdownMenuItem asChild>
-                  <form
-                    action={async () => {
-                      "use server";
-                      await signOut();
-                    }}
-                  >
-                    <button
-                      type="submit"
-                      className="w-full flex items-center gap-2 text-red-500 hover:text-red-600 hover:bg-red-50 p-2 rounded-sm min-h-[44px]"
-                    >
-                      <LogOut className="h-4 w-4" />
-                      Sign Out
-                    </button>
-                  </form>
+                <DropdownMenuItem>
+                  <MobileLogout />
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
