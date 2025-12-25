@@ -75,94 +75,106 @@ export default async function DashboardPage() {
       {/* Manager/Admin Summary Cards */}
       {isManager && (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Inventory Status</CardTitle>
-              <Package className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold flex items-center gap-2">
-                {lowStockCount > 0 ? (
-                  <>
-                    <AlertTriangle className="h-5 w-5 text-red-500" />
-                    {lowStockCount}
-                  </>
-                ) : (
-                  <>
-                    <CheckCircle className="h-5 w-5 text-green-500" />
-                    {inventoryItems.length}
-                  </>
-                )}
-              </div>
-              <p className="text-xs text-muted-foreground">
-                {lowStockCount > 0 ? `${lowStockCount} items low stock` : "All items in stock"}
-              </p>
-            </CardContent>
-          </Card>
+          <Link href="/dashboard/inventory">
+            <Card className="cursor-pointer hover:shadow-md transition-shadow">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">Inventory Status</CardTitle>
+                <Package className="h-4 w-4 text-muted-foreground" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold flex items-center gap-2">
+                  {lowStockCount > 0 ? (
+                    <>
+                      <AlertTriangle className="h-5 w-5 text-red-500" />
+                      {lowStockCount}
+                    </>
+                  ) : (
+                    <>
+                      <CheckCircle className="h-5 w-5 text-green-500" />
+                      {inventoryItems.length}
+                    </>
+                  )}
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  {lowStockCount > 0 ? `${lowStockCount} items low stock` : "All items in stock"}
+                </p>
+              </CardContent>
+            </Card>
+          </Link>
 
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Fleet Health</CardTitle>
-              <Truck className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold flex items-center gap-2">
-                <CheckCircle className="h-5 w-5 text-green-500" />
-                {activeTrucks}/{trucks.length}
-              </div>
-              <p className="text-xs text-muted-foreground">
-                Active trucks in fleet
-              </p>
-            </CardContent>
-          </Card>
+          <Link href="/dashboard/trucks">
+            <Card className="cursor-pointer hover:shadow-md transition-shadow">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">Fleet Health</CardTitle>
+                <Truck className="h-4 w-4 text-muted-foreground" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold flex items-center gap-2">
+                  <CheckCircle className="h-5 w-5 text-green-500" />
+                  {activeTrucks}/{trucks.length}
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  Active trucks in fleet
+                </p>
+              </CardContent>
+            </Card>
+          </Link>
 
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Team Hours</CardTitle>
-              <Clock className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{totalFleetHours.toFixed(1)}</div>
-              <p className="text-xs text-muted-foreground">Hours logged (30 days)</p>
-            </CardContent>
-          </Card>
+          <Link href="/dashboard/time">
+            <Card className="cursor-pointer hover:shadow-md transition-shadow">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">Team Hours</CardTitle>
+                <Clock className="h-4 w-4 text-muted-foreground" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">{totalFleetHours.toFixed(1)}</div>
+                <p className="text-xs text-muted-foreground">Hours logged (30 days)</p>
+              </CardContent>
+            </Card>
+          </Link>
 
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Maintenance</CardTitle>
-              <Wrench className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">${totalCost.toFixed(2)}</div>
-              <p className="text-xs text-muted-foreground">Total maintenance spend</p>
-            </CardContent>
-          </Card>
+          <Link href="/dashboard/maintenance">
+            <Card className="cursor-pointer hover:shadow-md transition-shadow">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">Maintenance</CardTitle>
+                <Wrench className="h-4 w-4 text-muted-foreground" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">${totalCost.toFixed(2)}</div>
+                <p className="text-xs text-muted-foreground">Total maintenance spend</p>
+              </CardContent>
+            </Card>
+          </Link>
         </div>
       )}
 
       {/* Personal Dashboard for Regular Users */}
       {!isManager && (
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">My Hours</CardTitle>
-              <Clock className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{totalHours.toFixed(1)}</div>
-              <p className="text-xs text-muted-foreground">Lifetime hours logged</p>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Maintenance</CardTitle>
-              <Wrench className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">${totalCost.toFixed(2)}</div>
-              <p className="text-xs text-muted-foreground">Total maintenance logged</p>
-            </CardContent>
-          </Card>
+          <Link href="/dashboard/time">
+            <Card className="cursor-pointer hover:shadow-md transition-shadow">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">My Hours</CardTitle>
+                <Clock className="h-4 w-4 text-muted-foreground" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">{totalHours.toFixed(1)}</div>
+                <p className="text-xs text-muted-foreground">Lifetime hours logged</p>
+              </CardContent>
+            </Card>
+          </Link>
+          <Link href="/dashboard/maintenance">
+            <Card className="cursor-pointer hover:shadow-md transition-shadow">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium">Maintenance</CardTitle>
+                <Wrench className="h-4 w-4 text-muted-foreground" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">${totalCost.toFixed(2)}</div>
+                <p className="text-xs text-muted-foreground">Total maintenance logged</p>
+              </CardContent>
+            </Card>
+          </Link>
         </div>
       )}
 
