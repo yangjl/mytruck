@@ -1,7 +1,7 @@
 "use server";
 
 import { db } from "@/db";
-import { timeLogs } from "@/db/schema";
+import { timeLogs, users } from "@/db/schema";
 import { eq, desc, and, isNull } from "drizzle-orm";
 import { auth } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
@@ -105,4 +105,27 @@ export async function logTimeManually(data: {
   });
 
   revalidatePath("/dashboard/time");
+}
+
+export async function getAllTimeLogs() {
+  const session = await auth();
+  if (!session?.user || (session.user.role !== "manager" && session.user.role !== "admin")) {
+    throw new Error("Unauthorized: Managers and admins only");
+  }
+
+  return await db.select({
+    id: timeLogs.id,
+    startTime: timeLogs.startTime,
+    endTime: timeLogs.endTime,
+    notes: timeLogs.notes,
+    status: timeLogs.status,
+    user: {
+      id: users.id,
+      name: users.name,
+      role: users.role,
+    },
+  })
+  .from(timeLogs)
+  .leftJoin(users, eq(timeLogs.userId, users.id))
+  .orderBy(desc(timeLogs.startTime));
 }
